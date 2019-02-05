@@ -1,4 +1,4 @@
-# Gameplay Programming Patterns Assignment 1
+# Gameplay Programming Patterns Assignment
 Create a Mac Unity project for your top-down arena shooter (think of Geometry Wars, Robotron or Everyday Shooter). For next week implement a the following features:
 
 1. Top-down Static View
