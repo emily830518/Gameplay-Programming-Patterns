@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
 
     private static void AddRandomComponent(GameObject go)
     {
-        int type = Random.Range(0, 3);
+        int type = Random.Range(0, 4);
         if (type == 0)
         {
             go.AddComponent(typeof(ChaseTarget));
@@ -42,9 +42,14 @@ public class Enemy : MonoBehaviour
         {
             go.AddComponent(typeof(ShootTarget));
         }
-        else
+        else if (type == 2)
         {
             go.AddComponent(typeof(ControlledByKeyboard));
+            go.AddComponent(typeof(ShootTarget));
+        }
+        else
+        {
+            go.AddComponent(typeof(ChaseTarget));
             go.AddComponent(typeof(ShootTarget));
         }
     }

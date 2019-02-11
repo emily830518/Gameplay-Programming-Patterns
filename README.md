@@ -9,10 +9,11 @@ Setup a basic project:
 
 Components:
 
-1. Design three enemy types for the game:
+1. Design 4 enemy types for the game:
 	(1) chase the target(player)
 	(2) shoot toward the target(player) but stay at the fixed position
 	(3) also controlled by the keyboard and shoot toward the target(player)
+	(4) chase the target and shoot toward the target
 2. Create components to implement the enemies:
 	(1) ChaseTarget
 	(2) ShootTarget

@@ -25,9 +25,9 @@ public class ShootTarget : MonoBehaviour
             target.position.y = transform.position.y;
             var pos = transform.position;
             var shootDir = Utility.GetOffset(pos, target.position).normalized;
-            //print(shootDir);
-            Rigidbody bulletClone = (Rigidbody)Instantiate(bulletRigidbody, transform.position, transform.rotation);
-            bulletClone.AddForce(shootDir * 800.0f);
+            Rigidbody bulletClone = (Rigidbody)Instantiate(bulletRigidbody, transform.position+ shootDir, transform.rotation);
+            bulletClone.AddForce(shootDir * 500.0f);
+            //bulletClone.velocity = shootDir * 10.0f;
         }
     }
 
