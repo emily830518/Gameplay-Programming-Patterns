@@ -19,3 +19,8 @@ Components:
 	(2) ShootTarget
 	(3) ControlledByKeyboard
 3. Refactor the player code with your new components: I refactored the controller part of the avatar and using ControlledByKeyboard component instead. 
+
+Manager:
+
+1. Create an EnemyManager to manage enemies
+2. A wave is 5 enemies in random types at a time
