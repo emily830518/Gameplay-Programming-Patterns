@@ -3,6 +3,11 @@
 [RequireComponent(typeof(Speed), typeof(Target))]
 public class ChaseTarget : MonoBehaviour
 {
+    void Start()
+    {
+        GetComponent<Enemy>().PointValue += 1;
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -24,3 +24,7 @@ Manager:
 
 1. Create an EnemyManager to manage enemies
 2. A wave is 5 enemies in random types at a time
+
+Events:
+
+Use event system to score and drive all the UI in the game(such as score display, life display and Game Over display).

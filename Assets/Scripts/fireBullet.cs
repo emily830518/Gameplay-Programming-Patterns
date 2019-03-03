@@ -12,7 +12,7 @@ public class fireBullet : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !GetComponent<Defense>().isOn)
         {
             Rigidbody bulletClone = (Rigidbody)Instantiate(bulletRigidbody, transform.position + shootDir, transform.rotation);
             bulletClone.AddForce(shootDir * 500.0f);

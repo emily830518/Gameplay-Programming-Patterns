@@ -18,5 +18,6 @@ public class ControlledByKeyboard : MonoBehaviour
             newPos.z -= step;
         if (Mathf.Abs(newPos.x) < 10f && Mathf.Abs(newPos.z) < 10f)
             this.transform.position = newPos;
+
     }
 }

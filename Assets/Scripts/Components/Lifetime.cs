@@ -2,11 +2,11 @@
 
 public class Lifetime : MonoBehaviour
 {
-    public float lifeLeft = 3;
+    public float lifeLeft = 1;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -14,15 +14,10 @@ public class Lifetime : MonoBehaviour
     {
         if(lifeLeft <= 0)
         {
+            EventManager.Instance.Fire(new EnemyDied(GetComponent<Enemy>().PointValue));
             Destroy(this);
             gameObject.AddComponent<Disappear>();
         }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-            lifeLeft--;
     }
 
 }

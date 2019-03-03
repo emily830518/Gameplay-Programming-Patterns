@@ -2,5 +2,5 @@
 
 public class Speed : MonoBehaviour
 {
-    public float value = 3f;
+    public float value = 2f;
 }

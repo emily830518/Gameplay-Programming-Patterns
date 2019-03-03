@@ -3,33 +3,45 @@
 public class Enemy : MonoBehaviour
 {
     public EnemyManager Manager { get; set; }
-    //public static bool isAlive;
+    public int PointValue;
+
     //Start is called before the first frame update
     void Start()
     {
-        //isAlive = true;
+        PointValue = 0;
+        EventManager.Instance.AddHandler<GameStateChanged>(OnGameStateChanged);
+    }
+
+    private void OnDestroy()
+    {
+        // Always unregister for events when you're done...
+        EventManager.Instance.RemoveHandler<GameStateChanged>(OnGameStateChanged);
+    }
+
+    private void OnGameStateChanged(GameStateChanged evt)
+    {
+        if (evt.State == GameState.Over) Destroy(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetMouseButtonUp(0))
-        //{
-        //    CreateEntity();
-        //}
-        if(GetComponent<Disappear>().readyToBeDestroyed == false)
-            Manager.Destroy(this);
+        if (GetComponent<Disappear>() != null)
+        {
+            if (GetComponent<Disappear>().readyToBeDestroyed == true)
+            {
+                Manager.Destroy(this);
+            }
+        }
     }
 
     public static void CreateEntity(GameObject go)
     {
-        //var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        ////go.tag = "Enemy";
-        ////generate enemy at random position on the X-Z plane
-        Vector3 pos = new Vector3(Random.Range(-10.0f, 10.0f), 0.5f, Random.Range(0.0f, 10.0f));
+        Vector3 pos = new Vector3(Random.Range(-9.0f, 9.0f), 0.5f, Random.Range(5.0f, 9.0f));
         go.transform.position = pos;
 
         go.AddComponent<Lifetime>();
+        go.gameObject.tag = "Enemy";
         int enemytype=AddRandomComponent(go);
         if (enemytype == 0)
         {
@@ -64,7 +76,11 @@ public class Enemy : MonoBehaviour
         return type;
     }
 
-    //public void DestroyEntity(){
-    //    Manager.Destroy(this);
-    //}
+    void OnCollisionEnter(Collision collision)
+    {
+        if (GetComponent<Lifetime>() != null && collision.gameObject.tag == "Player")
+        {
+            GetComponent<Lifetime>().lifeLeft--;
+        }
+    }
 }
