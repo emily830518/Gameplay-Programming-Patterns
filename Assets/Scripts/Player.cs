@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public int lives = 10;
     // Start is called before the first frame update
@@ -8,6 +8,19 @@ public class Character : MonoBehaviour
     {
         gameObject.AddComponent(typeof(ControlledByKeyboard));
         gameObject.AddComponent(typeof(Defense));
+        EventManager.Instance.AddHandler<GameStateChanged>(OnGameStateChanged);
+
+    }
+
+    private void OnDestroy()
+    {
+        // Always unregister for events when you're done...
+        EventManager.Instance.RemoveHandler<GameStateChanged>(OnGameStateChanged);
+    }
+
+    private void OnGameStateChanged(GameStateChanged evt)
+    {
+        if ((evt.State == GameState.Over) || (evt.State == GameState.Win)) Destroy(gameObject);
     }
 
     // Update is called once per frame

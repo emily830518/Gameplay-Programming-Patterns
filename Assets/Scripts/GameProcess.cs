@@ -4,7 +4,8 @@ using UnityEngine;
 public enum GameState
 {
     Playing,
-    Over
+    Over,
+    Win
 }
 
 public class GameProcess : MonoBehaviour
@@ -38,6 +39,8 @@ public class GameProcess : MonoBehaviour
         StartGame();
         EventManager.Instance.AddHandler<EnemyDied>(OnEnemyDied);
         EventManager.Instance.AddHandler<PlayerDied>(OnPlayerDied);
+        EventManager.Instance.AddHandler<PlayerWin>(OnPlayerWin);
+
     }
 
     private void OnDestroy()
@@ -45,8 +48,13 @@ public class GameProcess : MonoBehaviour
         // Always unregister event handlers...
         EventManager.Instance.RemoveHandler<EnemyDied>(OnEnemyDied);
         EventManager.Instance.RemoveHandler<PlayerDied>(OnPlayerDied);
-    }
+        EventManager.Instance.RemoveHandler<PlayerWin>(OnPlayerWin);
 
+    }
+    private void OnPlayerWin(PlayerWin evt)
+    {
+        State = GameState.Win;
+    }
     private void OnPlayerDied(PlayerDied evt)
     {
         EndGame();
@@ -72,12 +80,26 @@ public class GameProcess : MonoBehaviour
         }
     }
 
+    private void CreateBossEnemy(){
+        var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        go.gameObject.tag = "Enemy";
+        go.transform.position = new Vector3(0,0,0);
+        go.transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+        go.GetComponent<Renderer>().material.color = Color.black;
+        var bossenemy = go.AddComponent<BossEnemy>();
+        //go.AddComponent<ShootTarget>();
+    }
+
     private IEnumerator CheckEnemyPopulation()
     {
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
-            if (_manager.Population == 0)
+            if (_manager.Population == 0 && Score >= 10){
+                CreateBossEnemy();
+                break;
+            }
+            else if (_manager.Population == 0)
             {
                 StartCoroutine(CreateEnemy());
             }

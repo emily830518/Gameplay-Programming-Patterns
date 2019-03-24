@@ -16,7 +16,7 @@ public class Bullets : MonoBehaviour
 
     private void OnGameStateChanged(GameStateChanged evt)
     {
-        if (evt.State == GameState.Over) Destroy(gameObject);
+        if ((evt.State == GameState.Over) || (evt.State == GameState.Win)) Destroy(gameObject);
     }
 
     // Update is called once per frame

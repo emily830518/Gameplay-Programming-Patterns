@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 //taken from our course example Events
-public class GameEvent { }
+public abstract class GameEvent { }
 
 public class EventManager
 {

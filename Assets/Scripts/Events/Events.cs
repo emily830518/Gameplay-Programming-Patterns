@@ -21,6 +21,8 @@ public class LifeChanged : GameEvent
 
 public class PlayerDied : GameEvent { }
 
+public class PlayerWin : GameEvent { }
+
 public class EnemyDied : GameEvent
 {
     public int PointValue { get; }
