@@ -29,7 +29,7 @@ public class GameProcess : MonoBehaviour
         get => _gameState;
         set
         {
-            _gameState = value; EventManager.Instance.Fire(new GameStateChanged(_gameState));
+            _gameState = value; EventManager.Instance.Fire(new GameStateChanged(_gameState,Score));
         }
     }
 

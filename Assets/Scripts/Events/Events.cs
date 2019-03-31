@@ -36,9 +36,11 @@ public class EnemyDied : GameEvent
 public class GameStateChanged : GameEvent
 {
     public GameState State { get; }
+    public int FinalScore { get; }
 
-    public GameStateChanged(GameState state)
+    public GameStateChanged(GameState state, int finalScore)
     {
         State = state;
+        FinalScore = finalScore;
     }
 }

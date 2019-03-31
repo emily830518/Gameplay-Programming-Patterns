@@ -32,3 +32,7 @@ Use event system to score and drive all the UI in the game(such as score display
 Tasks:
 
 I add 3 tasks to implement 3 different attacks of Boss Enemy. The boss enemy has 15 lives, at first, the boss enemy will move from left to right continuously until lives = 10. Then, the boss enemy will move in circle until lives - 5. And then, the boss enemy move in circle and scale and shrink over time.
+
+State:
+
+Using State machine to control when to load different screens, because the state is not very complicated, I use simple case-switch to implement it.
