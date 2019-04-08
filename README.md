@@ -36,3 +36,9 @@ I add 3 tasks to implement 3 different attacks of Boss Enemy. The boss enemy has
 State:
 
 Using State machine to control when to load different screens, because the state is not very complicated, I use simple case-switch to implement it.
+
+Behavior Tree:
+
+Using Behavior Tree to implement one of my enemy(the blue one) and the boss enemy.
+1. Blue enemy: remain idle when player is not in range, and chase the player with regular speed when player is in range but player is not in danger. Chasing the player with higher speed when player is in range and player is in danger.
+2. Boss Enemy: I reimplement the boss enemy from Tasks to behavior tree. Remain idle at first. When it was shot by the player, it start moving left to right. And then, when the its lives is lower than half, it starts moving in circle. When the boss enemy is in danger, it heals itself.

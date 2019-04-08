@@ -62,7 +62,9 @@ public class Enemy : MonoBehaviour
         int type = Random.Range(0, 3);
         if (type == 0)
         {
-            go.AddComponent(typeof(ChaseTarget));
+            //go.AddComponent(typeof(ChaseTarget));
+            go.AddComponent<Rigidbody>();
+            go.AddComponent(typeof(EnemyBT));
         }
         else if (type == 1)
         {

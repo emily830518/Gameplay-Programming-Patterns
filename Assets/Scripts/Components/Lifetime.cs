@@ -2,7 +2,7 @@
 
 public class Lifetime : MonoBehaviour
 {
-    public float lifeLeft = 1;
+    public float lifeLeft = 3;
     // Start is called before the first frame update
     void Start()
     {

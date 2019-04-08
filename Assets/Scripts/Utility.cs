@@ -19,4 +19,10 @@ public static class Utility
     {
         return GameObject.Find("MainCharacter").transform.position;
     }
+
+    public static int GetPlayerLives()
+    {
+        return GameObject.Find("MainCharacter").GetComponent<Player>().lives;
+    }
+
 }
