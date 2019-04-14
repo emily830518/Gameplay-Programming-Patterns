@@ -6,18 +6,19 @@ public class ScoreDisplay : MonoBehaviour
     private void Start()
     {
         // Add a handler to find out when the score has changed
-        EventManager.Instance.AddHandler<ScoreChanged>(OnScoreChanged);
+        Services.Eventmanager.AddHandler<ScoreChanged>(OnScoreChanged);
     }
 
     private void OnDestroy()
     {
         // Always make sure you remove registered handlers when you're done
         // Otherwise you can end up with memory leaks and odd bugs
-        EventManager.Instance.RemoveHandler<ScoreChanged>(OnScoreChanged);
+        Services.Eventmanager.RemoveHandler<ScoreChanged>(OnScoreChanged);
     }
 
-    private void OnScoreChanged(ScoreChanged evt)
+    private void OnScoreChanged(GameEvent evt)
     {
-        GetComponent<TextMeshProUGUI>().text = "score:" + evt.NewScore.ToString();
+        var scorechangedevent = evt as ScoreChanged;
+        GetComponent<TextMeshProUGUI>().text = "score:" + scorechangedevent.NewScore.ToString();
     }
 }

@@ -23,7 +23,7 @@ public class GameProcess : MonoBehaviour
         set
         {
             _score = value;
-            EventManager.Instance.Fire(new ScoreChanged(_score));
+            Services.Eventmanager.Fire(new ScoreChanged(_score));
         }
     }
 
@@ -33,12 +33,14 @@ public class GameProcess : MonoBehaviour
         get => _gameState;
         set
         {
-            _gameState = value; EventManager.Instance.Fire(new GameStateChanged(_gameState,Score));
+            _gameState = value; 
+            Services.Eventmanager.Fire(new GameStateChanged(_gameState,Score));
         }
     }
     private void Awake()
     {
         Services.Enemymanager = new EnemyManager();
+        Services.Eventmanager = new EventManager();
     }
 
     // Start is called before the first frame update
@@ -52,40 +54,50 @@ public class GameProcess : MonoBehaviour
         SoundManager.instance.PlayMusic(startsound);
 
         StartGame();
-        EventManager.Instance.AddHandler<EnemyDied>(OnEnemyDied);
-        EventManager.Instance.AddHandler<PlayerDied>(OnPlayerDied);
-        EventManager.Instance.AddHandler<PlayerWin>(OnPlayerWin);
+        Services.Eventmanager.AddHandler<EnemyDied>(OnEnemyDied);
+        Services.Eventmanager.AddHandler<PlayerDied>(OnPlayerDied);
+        Services.Eventmanager.AddHandler<PlayerWin>(OnPlayerWin);
+
+
+        //EventManager.Instance.AddHandler<EnemyDied>(OnEnemyDied);
+        //EventManager.Instance.AddHandler<PlayerDied>(OnPlayerDied);
+        //EventManager.Instance.AddHandler<PlayerWin>(OnPlayerWin);
 
     }
 
     private void OnDestroy()
     {
         // Always unregister event handlers...
-        EventManager.Instance.RemoveHandler<EnemyDied>(OnEnemyDied);
-        EventManager.Instance.RemoveHandler<PlayerDied>(OnPlayerDied);
-        EventManager.Instance.RemoveHandler<PlayerWin>(OnPlayerWin);
+        Services.Eventmanager.RemoveHandler<EnemyDied>(OnEnemyDied);
+        Services.Eventmanager.RemoveHandler<PlayerDied>(OnPlayerDied);
+        Services.Eventmanager.RemoveHandler<PlayerWin>(OnPlayerWin);
+
+
+        //EventManager.Instance.RemoveHandler<EnemyDied>(OnEnemyDied);
+        //EventManager.Instance.RemoveHandler<PlayerDied>(OnPlayerDied);
+        //EventManager.Instance.RemoveHandler<PlayerWin>(OnPlayerWin);
 
         Services.Enemymanager = null;
 
     }
-    private void OnPlayerWin(PlayerWin evt)
+    private void OnPlayerWin(GameEvent evt)
     {
         SoundManager.instance.PlayMusic(winsound);
-
+        var playerwinevent = evt as PlayerWin;
         State = GameState.Win;
     }
-    private void OnPlayerDied(PlayerDied evt)
+    private void OnPlayerDied(GameEvent evt)
     {
         SoundManager.instance.PlayMusic(gameoversound);
-
+        var playerdiedevent = evt as PlayerDied;
         EndGame();
     }
 
-    private void OnEnemyDied(EnemyDied evt)
+    private void OnEnemyDied(GameEvent evt)
     {
         SoundManager.instance.PlayMusic(getpointsound);
-
-        Score += evt.PointValue;
+        var enemydiedevent = evt as EnemyDied;
+        Score += enemydiedevent.PointValue;
     }
 
     // Update is called once per frame

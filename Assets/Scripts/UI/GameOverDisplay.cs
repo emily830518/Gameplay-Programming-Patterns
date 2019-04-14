@@ -6,7 +6,7 @@ public class GameOverDisplay : MonoBehaviour
     void Start()
     {
         Hide();
-        EventManager.Instance.AddHandler<GameStateChanged>(OnGameStateChanged);
+        Services.Eventmanager.AddHandler<GameStateChanged>(OnGameStateChanged);
     }
 
     private void Show()
@@ -21,12 +21,13 @@ public class GameOverDisplay : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.Instance.RemoveHandler<GameStateChanged>(OnGameStateChanged);
+        Services.Eventmanager.RemoveHandler<GameStateChanged>(OnGameStateChanged);
     }
 
-    private void OnGameStateChanged(GameStateChanged evt)
+    private void OnGameStateChanged(GameEvent evt)
     {
-        if (evt.State == GameState.Over)
+        var gamestatechangedevent = evt as GameStateChanged;
+        if (gamestatechangedevent.State == GameState.Over)
         {
             Show();
         }

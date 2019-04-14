@@ -9,18 +9,21 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         PointValue = 0;
-        EventManager.Instance.AddHandler<GameStateChanged>(OnGameStateChanged);
+        //EventManager.Instance.AddHandler<GameStateChanged>(OnGameStateChanged);
+        Services.Eventmanager.AddHandler<GameStateChanged>(OnGameStateChanged);
     }
 
     private void OnDestroy()
     {
         // Always unregister for events when you're done...
-        EventManager.Instance.RemoveHandler<GameStateChanged>(OnGameStateChanged);
+        //EventManager.Instance.RemoveHandler<GameStateChanged>(OnGameStateChanged);
+        Services.Eventmanager.RemoveHandler<GameStateChanged>(OnGameStateChanged);
     }
 
-    private void OnGameStateChanged(GameStateChanged evt)
+    private void OnGameStateChanged(GameEvent evt)
     {
-        if ((evt.State == GameState.Over) || (evt.State == GameState.Win)) Destroy(gameObject);
+        var gamestatechangedevent = evt as GameStateChanged;
+        if ((gamestatechangedevent.State == GameState.Over) || (gamestatechangedevent.State == GameState.Win)) Destroy(gameObject);
     }
 
     // Update is called once per frame

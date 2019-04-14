@@ -56,8 +56,10 @@ public class BossEnemy : MonoBehaviour
             //Debug.Log(lives);
             if (lives <= 0)
             {
-                EventManager.Instance.Fire(new EnemyDied(PointValue));
-                EventManager.Instance.Fire(new PlayerWin());
+                //EventManager.Instance.Fire(new EnemyDied(PointValue));
+                Services.Eventmanager.Fire(new EnemyDied(PointValue));
+                Services.Eventmanager.Fire(new PlayerWin());
+                //EventManager.Instance.Fire(new PlayerWin());
                 Destroy(gameObject);
             }
         }

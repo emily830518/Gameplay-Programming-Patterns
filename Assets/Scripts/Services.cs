@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Services
 {
-    // Enemy Manager System   
+    // Enemy Manager   
     private static EnemyManager _enemy;
     public static EnemyManager Enemymanager
     {
@@ -16,6 +16,21 @@ public static class Services
         set
         {
             _enemy = value;
+        }
+    }
+
+    // Event Manager    
+    private static EventManager _event;
+    public static EventManager Eventmanager
+    {
+        get
+        {
+            Debug.Assert(_event != null);
+            return _event;
+        }
+        set
+        {
+            _event = value;
         }
     }
 }

@@ -14,7 +14,7 @@ public class Lifetime : MonoBehaviour
     {
         if(lifeLeft <= 0)
         {
-            EventManager.Instance.Fire(new EnemyDied(GetComponent<Enemy>().PointValue));
+            Services.Eventmanager.Fire(new EnemyDied(GetComponent<Enemy>().PointValue));
             Destroy(this);
             gameObject.AddComponent<Disappear>();
         }

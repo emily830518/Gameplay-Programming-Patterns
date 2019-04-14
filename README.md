@@ -44,4 +44,4 @@ Using Behavior Tree to implement one of my enemy(the blue one) and the boss enem
 2. Boss Enemy: I reimplement the boss enemy from Tasks to behavior tree. Remain idle at first. When it was shot by the player, it start moving left to right. And then, when the its lives is lower than half, it starts moving in circle. When the boss enemy is in danger, it heals itself.
 
 Service Locator:
-I implment a service locater that include EnemyManager, so I instead of using new to create a eventmange, I use serive locator to get access to EnemyManager.
+I implment a service locater that includes EnemyManager, EventManager, so I instead of using new to create a eventmange, I use serive locator to get access to EnemyManager. And instead of using singleton to access EventManager, I use service locator to get access to EventManager.

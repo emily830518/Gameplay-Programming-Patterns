@@ -9,30 +9,31 @@ public class ScoreRecord : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        EventManager.Instance.AddHandler<GameStateChanged>(OnGameStateChanged);
+        Services.Eventmanager.AddHandler<GameStateChanged>(OnGameStateChanged);
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.RemoveHandler<GameStateChanged>(OnGameStateChanged);
+        Services.Eventmanager.RemoveHandler<GameStateChanged>(OnGameStateChanged);
     }
 
-    private void OnGameStateChanged(GameStateChanged evt)
+    private void OnGameStateChanged(GameEvent evt)
     {
-        if (evt.State == GameState.Win || evt.State == GameState.Over)
+        var gamestatechangedevent = evt as GameStateChanged;
+        if (gamestatechangedevent.State == GameState.Win || gamestatechangedevent.State == GameState.Over)
         {
             if (Top_five.Count == 0)
             {
-                Top_five.Add(evt.FinalScore);
+                Top_five.Add(gamestatechangedevent.FinalScore);
             }
             else if (Top_five.Count < 5)
             {
-                Top_five.Add(evt.FinalScore);
+                Top_five.Add(gamestatechangedevent.FinalScore);
                 Top_five.Sort();
             }
             else
             {
-                Top_five.Add(evt.FinalScore);
+                Top_five.Add(gamestatechangedevent.FinalScore);
                 Top_five.Sort();
                 Top_five.RemoveAt(0); //remove the lowest score
             }
