@@ -17,7 +17,7 @@ public class EventManager
     private static readonly EventManager _instance = new EventManager();
     public static EventManager Instance => _instance;
 
-    private EventManager() { }
+    public EventManager() { }
 
     public void AddHandler<T>(EventDelegate<T> del) where T : GameEvent
     {

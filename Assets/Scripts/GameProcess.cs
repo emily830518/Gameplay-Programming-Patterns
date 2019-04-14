@@ -10,8 +10,12 @@ public enum GameState
 
 public class GameProcess : MonoBehaviour
 {
+    AudioClip startsound;
+    AudioClip gameoversound;
+    AudioClip getpointsound;
+    AudioClip winsound;
     public int numEnemies = 3;
-    private readonly EnemyManager _manager = new EnemyManager();
+    //private readonly EnemyManager _manager = new EnemyManager();
     private int _score;
     private int Score
     {
@@ -32,10 +36,21 @@ public class GameProcess : MonoBehaviour
             _gameState = value; EventManager.Instance.Fire(new GameStateChanged(_gameState,Score));
         }
     }
+    private void Awake()
+    {
+        Services.Enemymanager = new EnemyManager();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        startsound = Resources.Load<AudioClip>("Sound/startsound");
+        gameoversound = Resources.Load<AudioClip>("Sound/gameoversound");
+        getpointsound = Resources.Load<AudioClip>("Sound/getpointsound");
+        winsound = Resources.Load<AudioClip>("Sound/winsound");
+
+        SoundManager.instance.PlayMusic(startsound);
+
         StartGame();
         EventManager.Instance.AddHandler<EnemyDied>(OnEnemyDied);
         EventManager.Instance.AddHandler<PlayerDied>(OnPlayerDied);
@@ -50,18 +65,26 @@ public class GameProcess : MonoBehaviour
         EventManager.Instance.RemoveHandler<PlayerDied>(OnPlayerDied);
         EventManager.Instance.RemoveHandler<PlayerWin>(OnPlayerWin);
 
+        Services.Enemymanager = null;
+
     }
     private void OnPlayerWin(PlayerWin evt)
     {
+        SoundManager.instance.PlayMusic(winsound);
+
         State = GameState.Win;
     }
     private void OnPlayerDied(PlayerDied evt)
     {
+        SoundManager.instance.PlayMusic(gameoversound);
+
         EndGame();
     }
 
     private void OnEnemyDied(EnemyDied evt)
     {
+        SoundManager.instance.PlayMusic(getpointsound);
+
         Score += evt.PointValue;
     }
 
@@ -73,10 +96,13 @@ public class GameProcess : MonoBehaviour
 
     private IEnumerator CreateEnemy()
     {
-        while (_manager.Population < numEnemies)
+        if (Services.Enemymanager != null)
         {
-            yield return new WaitForSeconds(0.5f);
-            _manager.Create();
+            while (Services.Enemymanager.Population < numEnemies)
+            {
+                yield return new WaitForSeconds(0.5f);
+                Services.Enemymanager.Create();
+            }
         }
     }
 
@@ -87,7 +113,6 @@ public class GameProcess : MonoBehaviour
         go.transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
         go.GetComponent<Renderer>().material.color = Color.black;
         var bossenemy = go.AddComponent<BossEnemy>();
-        //go.AddComponent<ShootTarget>();
     }
 
     private IEnumerator CheckEnemyPopulation()
@@ -95,13 +120,17 @@ public class GameProcess : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
-            if (_manager.Population == 0 && Score >= 10){
-                CreateBossEnemy();
-                break;
-            }
-            else if (_manager.Population == 0)
+            if (Services.Enemymanager != null)
             {
-                StartCoroutine(CreateEnemy());
+                if (Services.Enemymanager.Population == 0 && Score >= 10)
+                {
+                    CreateBossEnemy();
+                    break;
+                }
+                else if (Services.Enemymanager.Population == 0)
+                {
+                    StartCoroutine(CreateEnemy());
+                }
             }
         }
     }
