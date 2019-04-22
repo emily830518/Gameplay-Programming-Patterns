@@ -78,7 +78,7 @@ public class GameProcess : MonoBehaviour
         //EventManager.Instance.RemoveHandler<PlayerWin>(OnPlayerWin);
 
         Services.Enemymanager = null;
-
+        Services.Eventmanager = null;
     }
     private void OnPlayerWin(GameEvent evt)
     {
